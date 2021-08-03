@@ -13,7 +13,7 @@ namespace Questionnaire.Web.Controllers
             _config = config;
         }
 
-        public ViewResult Index()
+        public IActionResult Index()
         {
             return View(new QuestionnaireViewModel());
         }
