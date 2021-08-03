@@ -3,7 +3,8 @@ name: .NET
 on:
   push:
     branches: [ master ]
-    paths: '5.0/Questionnaire/**'
+    paths: 
+      - '5.0/Questionnaire/**'
   pull_request:
     branches: [ master ]
 
