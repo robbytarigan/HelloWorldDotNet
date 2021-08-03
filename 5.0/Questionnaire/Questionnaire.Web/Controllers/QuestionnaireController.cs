@@ -1,21 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Questionnaire.Web.Abstractions;
 using Questionnaire.Web.Models;
 
 namespace Questionnaire.Web.Controllers
 {
     public class QuestionnaireController : Controller
     {
-        private readonly IConfiguration _config;
+        private readonly IQuestionnaireClient questionnaireClient;
 
-        public QuestionnaireController(IConfiguration config)
+        public QuestionnaireController(IQuestionnaireClient questionnaireClient)
         {
-            _config = config;
+            this.questionnaireClient = questionnaireClient;
         }
 
         public IActionResult Index()
         {
-            return View(new QuestionnaireViewModel());
+            var viewModel = this.questionnaireClient.GetQuestionnaire();
+            return base.View(viewModel);
         }
 
         /* ASYNC ACTION METHOD... IF REQUIRED... */
