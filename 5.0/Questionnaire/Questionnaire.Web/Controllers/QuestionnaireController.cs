@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Questionnaire.Web.Abstractions;
@@ -14,9 +15,9 @@ namespace Questionnaire.Web.Controllers
             this.questionnaireClient = questionnaireClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var viewModel = this.questionnaireClient.GetQuestionnaire();
+            var viewModel = await this.questionnaireClient.GetQuestionnaire();
             return base.View(viewModel);
         }
 

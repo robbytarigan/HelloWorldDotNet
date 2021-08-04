@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Questionnaire.Web.Abstractions;
+using Questionnaire.Web.Implementations;
 
 namespace Questionnaire.Web
 {
@@ -23,6 +26,8 @@ namespace Questionnaire.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IQuestionnaireClient, QuestionnaireClient>();
+            services.AddHttpClient<IQuestionnaireClient, QuestionnaireClient>(client => client.BaseAddress = new Uri(this.Configuration["WebApiUrl"]));
             services.AddControllersWithViews();
         }
 
@@ -39,6 +44,7 @@ namespace Questionnaire.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

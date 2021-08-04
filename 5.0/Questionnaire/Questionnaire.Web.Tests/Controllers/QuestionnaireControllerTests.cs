@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -21,15 +22,15 @@ namespace Questionnaire.Web.Tests
         }
 
         [Fact]
-        public void ShouldGetQuestions()
+        public async Task ShouldGetQuestions()
         {
             //Arrange
             var expectedTitle = "My expected questions";
 
-            this.questionnaireClient.Setup(c => c.GetQuestionnaire()).Returns(new Questionnaire.Web.Abstractions.Questionnaire(expectedTitle, Enumerable.Empty<string>()) );
+            this.questionnaireClient.Setup(c => c.GetQuestionnaire()).ReturnsAsync(new Questionnaire.Web.Abstractions.Questionnaire(expectedTitle, Enumerable.Empty<string>()) );
 
             //Act
-            var result = (Questionnaire.Web.Abstractions.Questionnaire)(questionnaireController.Index() as ViewResult).ViewData.Model;
+            var result = (Questionnaire.Web.Abstractions.Questionnaire)(await questionnaireController.Index() as ViewResult).ViewData.Model;
 
             //Assert
             result.QuestionnaireTitle.Should().Be(expectedTitle);

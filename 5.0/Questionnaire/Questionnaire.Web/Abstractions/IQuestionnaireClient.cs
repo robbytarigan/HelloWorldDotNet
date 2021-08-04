@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace Questionnaire.Web.Abstractions
 {
     public interface IQuestionnaireClient
     {
-        Questionnaire GetQuestionnaire();
+        Task<Questionnaire> GetQuestionnaire();
     }
 }

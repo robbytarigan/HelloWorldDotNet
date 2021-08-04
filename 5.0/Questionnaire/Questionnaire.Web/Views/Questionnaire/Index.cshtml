@@ -2,3 +2,10 @@
 @{
     ViewData["Title"] = "Questionnaire";
 }
+
+<h1>@Model.QuestionnaireTitle</h1>
+
+@foreach (var item in Model.QuestionsText)
+{
+    <li>@item</li>
+}
