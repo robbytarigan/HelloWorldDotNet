@@ -1,8 +1,18 @@
+using System.Text.Json;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure JSON options
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.IncludeFields = true;
+});
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDbContext<TodoDb>(opt => opt.UseInMemoryDatabase("TodoList"));
+
 var app = builder.Build();
 
 app.MapGet("/todoitems", async (TodoDb db) =>
@@ -54,7 +64,23 @@ app.MapDelete("/todoitems/{id}", async (int id, TodoDb db) =>
     return Results.NotFound();
 });
 
+app.MapGet("/todofield", () => new TodoField { Name = "Walk dog", IsComplete = false});
+
+var options = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+
+app.MapGet("/todoserializeroptions", () => Results.Json(new TodoItemDTO {
+                      Name = "Walk dog", IsComplete = false }, options));
+
 app.Run();
+
+
+public class TodoField 
+{
+    // These are public fields instead of properties.
+    public string? Name;
+    public bool IsComplete;
+}
+
 
 public class Todo
 {
